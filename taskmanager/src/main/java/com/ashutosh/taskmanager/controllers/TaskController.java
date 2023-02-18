@@ -1,10 +1,7 @@
 package com.ashutosh.taskmanager.controllers;
 
-import com.ashutosh.taskmanager.dto.CreateTaskDTO;
+import com.ashutosh.taskmanager.dto.*;
 
-import com.ashutosh.taskmanager.dto.ErrorResponseDTO;
-import com.ashutosh.taskmanager.dto.TaskResponseDTO;
-import com.ashutosh.taskmanager.dto.UpdateTaskDTO;
 import com.ashutosh.taskmanager.entities.TaskEntity;
 import com.ashutosh.taskmanager.service.NoteService;
 import com.ashutosh.taskmanager.service.TaskService;
@@ -56,7 +53,11 @@ public class TaskController {
         var task = taskService.updateTask(id, body.getDescription(), body.getDeadline() , body.getCompleted());
         return ResponseEntity.ok(task);
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TaskEntity> deleteTask(@PathVariable("id") Integer id){
+        var task = taskService.deleteTask(id);
+        return ResponseEntity.ok(task);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception e) {

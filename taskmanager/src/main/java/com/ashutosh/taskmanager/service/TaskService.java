@@ -51,4 +51,12 @@ public class TaskService {
         }
         return task;
     }
+
+    public TaskEntity deleteTask(int id){
+        TaskEntity task = getTaskById(id);
+        if(task==null)
+            return null;
+        tasks.remove(task);
+        return task;
+    }
 }
