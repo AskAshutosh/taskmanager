@@ -1,6 +1,9 @@
 package com.ashutosh.taskmanager.service;
 
-import com.ashutosh.taskmanager.entities.TaskEntity;
+import com.ashutosh.taskmanager.dto.CreateTaskDTO;
+import com.ashutosh.taskmanager.entities.Task;
+import com.ashutosh.taskmanager.transformer.CreateTaskDtoToTask;
+import com.ashutosh.taskmanager.utils.Validator;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -10,26 +13,25 @@ import java.util.ArrayList;
 @Service
 
 public class TaskService {
-    private ArrayList<TaskEntity> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
     private int taskId = 1;
     private final SimpleDateFormat deadLineFormatter = new SimpleDateFormat("YYYY-MM-dd");
-    public TaskEntity addTask(String title, String description , String deadline) throws ParseException {
-        TaskEntity task = new TaskEntity();
+    public Task addTask(CreateTaskDTO dto) throws ParseException {
+        Boolean result = Validator.validateTaskDto(dto);
+        CreateTaskDtoToTask converter = new CreateTaskDtoToTask();
+        Task task = converter.transformCreateTaskDtoToTask(dto);
         task.setId(taskId);
-        task.setTitle(title);
-        task.setDescription(description);
-        task.setDeadline(deadLineFormatter.parse(deadline)); //TODO: Validate date format YYYY-MM-DD
         task.setCompleted(false);
         tasks.add(task);
         taskId++;
         return task;
     }
-    public ArrayList<TaskEntity> getTasks(){
+    public ArrayList<Task> getTasks(){
         return tasks;
     }
 
-    public TaskEntity getTaskById(int id){
-        for(TaskEntity task: tasks){
+    public Task getTaskById(int id){
+        for(Task task: tasks){
             if(task.getId()== id){
                 return task;
             }
@@ -37,8 +39,8 @@ public class TaskService {
         return null;
     }
 
-    public  TaskEntity updateTask(int id, String description, String deadline, Boolean completed) throws ParseException {
-        TaskEntity task = getTaskById(id);
+    public Task updateTask(int id, String description, String deadline, Boolean completed) throws ParseException {
+        Task task = getTaskById(id);
         if(task == null)
                 return null;
         if(description!=null){
@@ -52,8 +54,8 @@ public class TaskService {
         return task;
     }
 
-    public TaskEntity deleteTask(int id){
-        TaskEntity task = getTaskById(id);
+    public Task deleteTask(int id){
+        Task task = getTaskById(id);
         if(task==null)
             return null;
         tasks.remove(task);

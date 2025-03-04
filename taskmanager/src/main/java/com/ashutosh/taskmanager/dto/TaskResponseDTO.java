@@ -1,6 +1,6 @@
 package com.ashutosh.taskmanager.dto;
 
-import com.ashutosh.taskmanager.entities.NoteEntity;
+import com.ashutosh.taskmanager.entities.Note;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,5 +18,5 @@ public class TaskResponseDTO {
     private  String description;
     private Date deadline;
     private boolean completed;
-    private List<NoteEntity> notes;
+    private List<Note> notes;
 }

@@ -2,7 +2,7 @@ package com.ashutosh.taskmanager.controllers;
 
 import com.ashutosh.taskmanager.dto.CreateNoteDTO;
 import com.ashutosh.taskmanager.dto.CreateNoteResponseDTO;
-import com.ashutosh.taskmanager.entities.NoteEntity;
+import com.ashutosh.taskmanager.entities.Note;
 import com.ashutosh.taskmanager.service.NoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class NotesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<NoteEntity>> getNotes(@PathVariable("taskId") Integer taskId){
+    public ResponseEntity<List<Note>> getNotes(@PathVariable("taskId") Integer taskId){
         var notes = notesService.getNotesForTask(taskId);
         return ResponseEntity.ok(notes);
     }
