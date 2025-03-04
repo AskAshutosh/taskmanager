@@ -1,8 +1,7 @@
 package com.ashutosh.taskmanager.service;
 
-import com.ashutosh.taskmanager.entities.NoteEntity;
-import com.ashutosh.taskmanager.entities.TaskEntity;
-import org.springframework.scheduling.config.Task;
+import com.ashutosh.taskmanager.entities.Note;
+import com.ashutosh.taskmanager.entities.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +19,10 @@ public class NoteService {
 
     class TaskNotesHolder{
         protected int nodeId = 1;
-        protected ArrayList<NoteEntity> notes = new ArrayList<>();
+        protected ArrayList<Note> notes = new ArrayList<>();
     }
-    public List<NoteEntity> getNotesForTask(int taskId){
-        TaskEntity task = taskService.getTaskById(taskId);
+    public List<Note> getNotesForTask(int taskId){
+        Task task = taskService.getTaskById(taskId);
         if(task == null)
             return null;
         if(taskNotesHolders.get(taskId)==null) {
@@ -31,15 +30,15 @@ public class NoteService {
         }
         return taskNotesHolders.get(taskId).notes;
     }
-    public NoteEntity addNotesForTask(int taskId, String title, String body){
-        TaskEntity task = taskService.getTaskById(taskId);
+    public Note addNotesForTask(int taskId, String title, String body){
+        Task task = taskService.getTaskById(taskId);
         if(task == null)
             return null;
         if(taskNotesHolders.get(taskId)==null){
             taskNotesHolders.put(taskId, new TaskNotesHolder());
         }
         TaskNotesHolder taskNotesHolder = taskNotesHolders.get(taskId);
-        NoteEntity note = new NoteEntity();
+        Note note = new Note();
         note.setId(taskNotesHolder.nodeId);
         note.setTitle(title);
         note.setBody(body);

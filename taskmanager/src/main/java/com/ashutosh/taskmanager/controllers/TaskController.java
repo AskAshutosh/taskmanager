@@ -2,7 +2,7 @@ package com.ashutosh.taskmanager.controllers;
 
 import com.ashutosh.taskmanager.dto.*;
 
-import com.ashutosh.taskmanager.entities.TaskEntity;
+import com.ashutosh.taskmanager.entities.Task;
 import com.ashutosh.taskmanager.service.NoteService;
 import com.ashutosh.taskmanager.service.TaskService;
 import org.modelmapper.ModelMapper;
@@ -25,7 +25,7 @@ public class TaskController {
     private final ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping("")
-    public ResponseEntity<List<TaskEntity>> getTasks(){
+    public ResponseEntity<List<Task>> getTasks(){
         var tasks = taskService.getTasks();
 
         return ResponseEntity.ok(tasks);
@@ -42,19 +42,19 @@ public class TaskController {
     }
 
     @PostMapping("")
-    public ResponseEntity<TaskEntity> addTask(@RequestBody CreateTaskDTO body) throws ParseException {
-        var task = taskService.addTask(body.getTitle(), body.getDescription(), body.getDeadline());
+    public ResponseEntity<Task> addTask(@RequestBody CreateTaskDTO body) throws ParseException {
+        var task = taskService.addTask(body);
 
         return ResponseEntity.ok(task);
     }
 
     @PatchMapping("/{id}")
-    public  ResponseEntity<TaskEntity> updateTask(@PathVariable("id") Integer id, @RequestBody UpdateTaskDTO body) throws ParseException {
+    public  ResponseEntity<Task> updateTask(@PathVariable("id") Integer id, @RequestBody UpdateTaskDTO body) throws ParseException {
         var task = taskService.updateTask(id, body.getDescription(), body.getDeadline() , body.getCompleted());
         return ResponseEntity.ok(task);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<TaskEntity> deleteTask(@PathVariable("id") Integer id){
+    public ResponseEntity<Task> deleteTask(@PathVariable("id") Integer id){
         var task = taskService.deleteTask(id);
         return ResponseEntity.ok(task);
     }
